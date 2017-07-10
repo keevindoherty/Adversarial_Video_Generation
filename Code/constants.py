@@ -70,9 +70,9 @@ def set_test_dir(directory):
 # root directory for all data
 DATA_DIR = get_dir('../Data/')
 # directory of unprocessed training frames
-TRAIN_DIR = os.path.join(DATA_DIR, 'Ms_Pacman/Train/')
+TRAIN_DIR = os.path.join(DATA_DIR, 'Train/')
 # directory of unprocessed test frames
-TEST_DIR = os.path.join(DATA_DIR, 'Ms_Pacman/Test/')
+TEST_DIR = os.path.join(DATA_DIR, 'Test/')
 # Directory of processed training clips.
 # hidden so finder doesn't freeze w/ so many files. DON'T USE `ls` COMMAND ON THIS DIR!
 TRAIN_DIR_CLIPS = get_dir(os.path.join(DATA_DIR, '.Clips/'))
@@ -83,7 +83,7 @@ MOVEMENT_THRESHOLD = 100
 NUM_CLIPS = len(glob(TRAIN_DIR_CLIPS + '*'))
 
 # the height and width of the full frames to test on. Set in avg_runner.py or process_data.py main.
-FULL_HEIGHT = 210
+FULL_HEIGHT = 120
 FULL_WIDTH = 160
 # the height and width of the patches to train on
 TRAIN_HEIGHT = TRAIN_WIDTH = 32

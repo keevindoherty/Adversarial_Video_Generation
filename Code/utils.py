@@ -109,6 +109,7 @@ def process_clip():
         cropped_clip = clip[crop_y:crop_y + c.TRAIN_HEIGHT, crop_x:crop_x + c.TRAIN_WIDTH, :]
 
         if take_first or clip_l2_diff(cropped_clip) > c.MOVEMENT_THRESHOLD:
+            # print i
             break
 
     return cropped_clip
@@ -121,7 +122,7 @@ def get_train_batch():
             [c.BATCH_SIZE, c.TRAIN_HEIGHT, c.TRAIN_WIDTH, (3 * (c.HIST_LEN + 1))].
     """
     clips = np.empty([c.BATCH_SIZE, c.TRAIN_HEIGHT, c.TRAIN_WIDTH, (3 * (c.HIST_LEN + 1))],
-                     dtype=np.float32)
+                     dtype=np.float64)
     for i in xrange(c.BATCH_SIZE):
         path = c.TRAIN_DIR_CLIPS + str(np.random.choice(c.NUM_CLIPS)) + '.npz'
         clip = np.load(path)['arr_0']
@@ -193,8 +194,8 @@ def sharp_diff_error(gen_frames, gt_frames):
     # TODO: Could this be simplified with one filter [[-1, 2], [0, -1]]?
     pos = tf.constant(np.identity(3), dtype=tf.float32)
     neg = -1 * pos
-    filter_x = tf.expand_dims(tf.pack([neg, pos]), 0)  # [-1, 1]
-    filter_y = tf.pack([tf.expand_dims(pos, 0), tf.expand_dims(neg, 0)])  # [[1],[-1]]
+    filter_x = tf.expand_dims(tf.stack([neg, pos]), 0)  # [-1, 1]
+    filter_y = tf.stack([tf.expand_dims(pos, 0), tf.expand_dims(neg, 0)])  # [[1],[-1]]
     strides = [1, 1, 1, 1]  # stride of (1, 1)
     padding = 'SAME'
 
